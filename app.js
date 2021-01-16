@@ -31,7 +31,7 @@ const randomDefinition = (word) => {
       if (response[0].shortdef !== undefined) {
         definition.textContent = "";
         let shortDef = firstLetterCapital(response[0].shortdef[0]);
-        definition.textContent = shortDef;
+        definition.textContent = addPunctuation(shortDef);
       } else {
         definition.innerHTML = `Sorry, we couldn't find this term, but feel free to <a href='https://www.google.com/search?q=${word.textContent}'>Google</a> or <a href='https://duckduckgo.com/?q=${word.textContent}'>DuckDuckGo</a> it.`;
       }
@@ -49,4 +49,8 @@ button.addEventListener("click", function () {
 function firstLetterCapital(str) {
   let capitalizedString = String(str);
   return capitalizedString.charAt(0).toUpperCase() + capitalizedString.slice(1);
+}
+
+function addPunctuation(str) {
+  return String(str) + ".";
 }
