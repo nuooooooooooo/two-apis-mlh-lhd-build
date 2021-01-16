@@ -1,7 +1,7 @@
 const body = document.querySelector("body");
 const button = document.querySelector(".button");
-const word = document.createElement("h1");
-const definition = document.createElement("p");
+const word = document.querySelector(".word");
+const definition = document.querySelector(".definition");
 import { info } from "./env.js";
 
 const randomWord = () => {
@@ -12,7 +12,7 @@ const randomWord = () => {
     .then((response) => {
       word.textContent = "";
       word.textContent = response;
-      body.appendChild(word);
+
       randomDefinition(word);
     })
     .catch((err) => {
@@ -30,15 +30,14 @@ const randomDefinition = (word) => {
     .then((response) => {
       if (response[0].shortdef !== undefined) {
         definition.textContent = "";
-        definition.textContent = "Definition: " + response[0].shortdef;
-        body.appendChild(definition);
+        let shortDef = firstLetterCapital(response[0].shortdef[0]);
+        definition.textContent = shortDef;
       } else {
-        definition.textContent = "No Content Available";
+        definition.innerHTML = `Sorry, we couldn't find this term, but feel free to <a href='https://www.google.com/search?q=${word.textContent}'>Google</a> or <a href='https://duckduckgo.com/?q=${word.textContent}'>DuckDuckGo</a> it.`;
       }
     })
     .catch((err) => {
       definition.textContent = "No definition";
-      body.appendChild(definition);
       console.log(err);
     });
 };
@@ -46,3 +45,8 @@ const randomDefinition = (word) => {
 button.addEventListener("click", function () {
   randomWord();
 });
+
+function firstLetterCapital(str) {
+  let capitalizedString = String(str);
+  return capitalizedString.charAt(0).toUpperCase() + capitalizedString.slice(1);
+}
